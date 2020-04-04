@@ -1,5 +1,5 @@
 const item = (sequelize, DataTypes) => {
-  const item = sequelize.define('item', {
+  const Item = sequelize.define('item', {
     name: {
       type: DataTypes.STRING,
       validate: { notEmpty: true },
@@ -9,7 +9,7 @@ const item = (sequelize, DataTypes) => {
     }
   });
 
-  return item;
+  return Item;
 };
 
 export default item;

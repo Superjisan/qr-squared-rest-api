@@ -10,12 +10,12 @@ sequelize
     createUsers();
   });
 
-const createUsers = async date => {
+const createUsers = async () => {
   await models.User.create({
     username: 'jzaman',
     email: 'jzthegreat@gmail.com',
     password: 'blahblahblah',
-    role: 'ADMIN',
+    role: 'ADMIN'
   });
 
   await models.User.create({

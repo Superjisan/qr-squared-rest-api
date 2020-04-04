@@ -18,6 +18,11 @@ if (process.env.DATABASE_URL) {
 
 const models = {
   User: sequelize.import('./user'),
+  Item: sequelize.import('./item'),
+  UOM: sequelize.import('./uom'),
+  Ingredient: sequelize.import('./ingredient'),
+  Instruction: sequelize.import("./instruction"),
+  Recipe: sequelize.import("./recipe")
 };
 
 Object.keys(models).forEach(key => {
