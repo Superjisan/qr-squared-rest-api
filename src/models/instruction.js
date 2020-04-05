@@ -16,10 +16,7 @@ const instruction = (sequelize, DataTypes) => {
   });
 
   Instruction.associate = models => {
-    Instruction.hasMany(models.Ingredient, {
-      onDelete: 'RESTRICT',
-      onUpdate: 'RESTRICT'
-    });
+    Instruction.belongsToMany(models.Ingredient, {through: "InstructionIngredient"} );
     Instruction.belongsTo(models.Recipe)
   };
 

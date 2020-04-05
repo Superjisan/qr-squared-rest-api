@@ -1,9 +1,5 @@
 const ingredient = (sequelize, DataTypes) => {
   const Ingredient = sequelize.define('ingredient', {
-    name: {
-      type: DataTypes.STRING,
-      validate: { notEmpty: true },
-    },
     category: DataTypes.STRING,
     qty: {
         type: DataTypes.FLOAT,
@@ -29,7 +25,8 @@ const ingredient = (sequelize, DataTypes) => {
         onDelete: 'RESTRICT'
     });
 
-    Ingredient.belongsTo(models.Recipe)
+    Ingredient.belongsTo(models.Recipe);
+    Ingredient.belongsToMany(models.Instruction, {through: "InstructionIngredient"});
 
   };
 

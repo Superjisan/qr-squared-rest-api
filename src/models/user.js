@@ -59,6 +59,10 @@ const user = (sequelize, DataTypes) => {
     return await bcrypt.compare(password, this.password);
   };
 
+  User.associate = models => {
+    User.hasMany(models.Recipe)
+  };
+
   return User;
 };
 

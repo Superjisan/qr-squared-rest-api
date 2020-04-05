@@ -25,3 +25,15 @@ export const isMessageOwner = async (
 
   return skip;
 };
+
+
+export const isRecipeAuthorOrAdmin = combineResolvers(
+  isAuthenticated,
+  (parent, {id}, { me: { role } }) => {
+    const recipe = await models.Recipe.findById(id, {raw: true});
+    if(me.id !== recipe.id || role !== "ADMIN") {
+      throw new ForbiddenError("Not authorized to edit recipe");
+    }
+    return skip;
+  }
+)
