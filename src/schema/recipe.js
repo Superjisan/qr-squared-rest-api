@@ -7,6 +7,11 @@ export default gql`
   }
 
   type Recipe {
-      
+      id: ID!
+      name: String!
+      rating: Int
+      originUrl: String
+      originText: String
+      author: User!
   }
 `

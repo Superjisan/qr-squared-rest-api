@@ -91,5 +91,12 @@ export default {
         },
       });
     },
+    recipes: async (user, args, {models}) => {
+      return await models.Recipe.findAll({
+        where: {
+          authorId: user.id
+        }
+      })
+    }
   },
 };
