@@ -26,9 +26,12 @@ This repo is the backend node express server that runs Apollo Server to allow gr
 After you have created a database and a database user, you can fill out the environment variables in the *server/.env* file.
 
 ```
-#
+
 DATABASE_URL=postgres://db_user:db_password@url:5432/qr-squared
 
+DATABASE_USER=db_user
+DATABASE_PASSWORD=db_user_password
+CLOUD_SQL_CONNECTION_NAME=instance_name
 
 SECRET=boomshakalaka
 ```
