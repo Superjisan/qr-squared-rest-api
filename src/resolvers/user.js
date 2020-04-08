@@ -28,7 +28,7 @@ export default {
         return null;
       }
 
-      return await models.User.findById(me.id);
+      return await models.User.findOne({where: {id:me.id}});
     },
   },
 
@@ -72,7 +72,11 @@ export default {
     updateUser: combineResolvers(
       isAuthenticated,
       async (parent, { username }, { models, me }) => {
-        const user = await models.User.findById(me.id);
+        const user = await models.User.findOne({
+          where: {
+            id: me.id
+          }
+        });
         return await user.update({ username });
       },
     ),

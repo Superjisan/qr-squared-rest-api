@@ -10,6 +10,14 @@ export default gql`
     addRecipe(
       name: String!
     ): Recipe!
+
+    updateRecipe(
+      id: ID!,
+      name: String!,
+      rating: Int,
+      originUrl: String,
+      originText: String
+    ): Recipe!
   }
 
   type Recipe {
@@ -18,8 +26,8 @@ export default gql`
       rating: Int
       originUrl: String
       originText: String
-      author: User!
+      author: User
       instructions: [Instruction!]
       ingredients: [Ingredient!]
   }
-`
+`;

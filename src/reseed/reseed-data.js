@@ -18,7 +18,7 @@ sequelize
           {text: "Marinate the Chicken"}
         ]
       }, {
-        include: [models.Instruction],
+        include: [models.Instruction, {model: models.User, as: "author"}],
       })
     
     await models.Ingredient.create({

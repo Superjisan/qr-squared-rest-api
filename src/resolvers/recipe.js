@@ -1,5 +1,7 @@
+import { pickBy } from 'lodash';
 import { combineResolvers } from 'graphql-resolvers';
 import { AuthenticationError, UserInputError } from 'apollo-server';
+import { isAuthenticated } from './authorization';
 
 export default {
   Query: {
@@ -12,18 +14,34 @@ export default {
   },
 
   Mutation: {
-    addRecipe: async (parent, {
-      name
-    }, {models}) => {
-      const recipe = await models.Recipe.create({
-        name
-      });
-      if(!recipe) {
-        throw new UserInputError('Name is needed to create a recipe');
-      }
+    addRecipe: combineResolvers(
+      isAuthenticated,
+      async (parent, { name }, { models, me }) => {
+        const recipe = await models.Recipe.create(
+          {
+            name,
+            authorId: me.id,
+          },
+          { include: [{ model: models.User, as: 'author' }] }
+        );
+        if (!recipe) {
+          throw new UserInputError(
+            'Name is needed to create a recipe'
+          );
+        }
 
-      return recipe;
-    }
+        return recipe;
+      }
+    ),
+
+    updateRecipe: async (parent, { recipe }, { models }) => {
+      const recipeToUpdate = await models.Recipe.findOne({
+        where: {
+          id: recipe.id,
+        },
+      });
+      return await recipeToUpdate.update(recipe);
+    },
   },
 
   Recipe: {
@@ -34,19 +52,19 @@ export default {
         },
       });
     },
-    ingredients: async (recipe, args, {models}) => {
+    ingredients: async (recipe, args, { models }) => {
       return await models.Ingredient.findAll({
         where: {
-          recipeId: recipe.id
-        }
-      })
+          recipeId: recipe.id,
+        },
+      });
     },
-    instructions: async (recipe, args, {models}) => {
+    instructions: async (recipe, args, { models }) => {
       return await models.Instruction.findAll({
         where: {
-          recipeId: recipe.id
-        }
-      })
-    }
+          recipeId: recipe.id,
+        },
+      });
+    },
   },
 };
