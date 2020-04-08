@@ -9,9 +9,7 @@ const ingredient = (sequelize, DataTypes) => {
 
   Ingredient.associate = models => {
     Ingredient.belongsTo(models.Item);
-    Ingredient.belongsTo(models.UOM, {
-      constraints: false
-    });
+    
 
     Ingredient.hasMany(models.Item, {
         as: "substituteItem",
@@ -19,9 +17,7 @@ const ingredient = (sequelize, DataTypes) => {
         constraints: false
     })
 
-    Ingredient.hasOne(models.UOM, {
-        onDelete: 'RESTRICT'
-    });
+    Ingredient.belongsTo(models.UOM);
 
     Ingredient.belongsTo(models.Recipe);
     Ingredient.belongsToMany(models.Instruction, {through: "InstructionIngredient"});

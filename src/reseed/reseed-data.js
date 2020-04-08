@@ -26,8 +26,12 @@ sequelize
       item: {
         name: "chicken"
       },
+      uom: {
+        name: "pound",
+        alias: "lb"
+      },
       qty: 2
-    }, {include: [models.Item]})
+    }, {include: [models.Item, models.UOM]})
     
   });
 
