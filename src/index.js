@@ -17,7 +17,7 @@ import resolvers from './resolvers';
 import models, { sequelize } from './models';
 import loaders from './loaders';
 
-gcCloudDebugAgent.start();
+// gcCloudDebugAgent.start();
 
 const app = express();
 
@@ -93,14 +93,6 @@ server.installSubscriptionHandlers(httpServer);
 const isTest = !!process.env.TEST_DATABASE;
 const isProduction = !!process.env.DATABASE_URL;
 const port = process.env.PORT || 8000;
-
-// sequelize.sync({ 
-//   force: isTest || isProduction 
-// }).then(async () => {
-//   if (isTest || isProduction) {
-//     createUsers(new Date());
-//   }
-// });
 
 httpServer.listen({ port }, () => {
   console.log(`Apollo Server on http://localhost:${port}/graphql`);
