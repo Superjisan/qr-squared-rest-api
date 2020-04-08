@@ -3,6 +3,10 @@ import { gql } from 'apollo-server-express';
 import userSchema from './user';
 import messageSchema from './message';
 import recipeSchema from './recipe';
+import ingredientSchema from "./ingredient";
+import itemSchema from "./item";
+import instructionSchema from "./instruction";
+import UOMSchema from "./uom";
 
 const linkSchema = gql`
   scalar Date
@@ -20,4 +24,13 @@ const linkSchema = gql`
   }
 `;
 
-export default [linkSchema, userSchema, messageSchema, recipeSchema];
+export default [
+  linkSchema, 
+  userSchema, 
+  messageSchema, 
+  recipeSchema,
+  ingredientSchema,
+  itemSchema,
+  instructionSchema,
+  UOMSchema
+];

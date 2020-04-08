@@ -8,17 +8,12 @@ const ingredient = (sequelize, DataTypes) => {
   });
 
   Ingredient.associate = models => {
-    Ingredient.hasOne(models.Item, {
-      onDelete: 'CASCADE',
-      onUpdate: 'RESTRICT',
-      foreignKey: {
-        allowNull: false,
-      },
-    });
+    Ingredient.belongsTo(models.Item);
 
     Ingredient.hasMany(models.Item, {
         as: "substituteItem",
-        foreignKey: "substitute_item_key"
+        foreignKey: "substitute_item_key",
+        constraints: false
     })
 
     Ingredient.hasOne(models.UOM, {

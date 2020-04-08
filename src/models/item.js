@@ -9,6 +9,10 @@ const item = (sequelize, DataTypes) => {
     }
   });
 
+  Item.associate = models => {
+    Item.hasMany(models.Ingredient)
+  }
+
   return Item;
 };
 

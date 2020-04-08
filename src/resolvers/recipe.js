@@ -6,6 +6,9 @@ export default {
     recipes: async (parent, args, { models }) => {
       return await models.Recipe.findAll();
     },
+    recipe: async (parent, { id }, { models }) => {
+      return await models.Recipe.findById(id);
+    },
   },
 
   Recipe: {

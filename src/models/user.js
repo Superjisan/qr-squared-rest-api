@@ -60,7 +60,9 @@ const user = (sequelize, DataTypes) => {
   };
 
   User.associate = models => {
-    User.hasMany(models.Recipe)
+    User.hasMany(models.Recipe, {
+      as: 'author'
+    })
   };
 
   return User;
