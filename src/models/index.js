@@ -5,7 +5,7 @@ if (process.env.NODE_ENV === "production") {
   sequelize = new Sequelize(process.env.DATABASE,
     process.env.DATABASE_USER,
     process.env.DATABASE_PASSWORD, {
-    host: `/cloudsql/${process.CLOUD_SQL_CONNECTION_NAME}`,
+    host: `/cloudsql/${process.env.CLOUD_SQL_CONNECTION_NAME}`,
     dialect: 'postgres',
   });
 } else {

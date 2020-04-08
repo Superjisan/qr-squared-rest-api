@@ -9,7 +9,15 @@ This repo is the backend node express server that runs Apollo Server to allow gr
 * `touch .env`
 * `npm install`
 * fill out *.env file* (see below)
-* start PostgreSQL database
+* start PostgreSQL database (if DB hosted on google cloud, open up proxy connection)
+    * [reference](https://cloud.google.com/sql/docs/mysql/quickstart-proxy-test)
+    * download cloud_sql_proxy: 
+    `curl -o cloud_sql_proxy https://dl.google.com/cloudsql/cloud_sql_proxy.darwin.amd64
+    ` 
+    * make it executable `chmod +x cloud_sql_proxy`
+
+    * Run `./cloud_sql_proxy -instances=<INSTANCE_CONNECTION_NAME>=tcp:5432`
+
 * `npm start`
 * visit `http://localhost:8000` for GraphQL playground
 

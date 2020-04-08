@@ -1,1 +1,0 @@
-console.log(`deploying with GCLOUD_ENV? ${process.env.GCLOUD_ENV}`)
