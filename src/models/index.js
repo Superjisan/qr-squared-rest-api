@@ -1,8 +1,11 @@
 import Sequelize from 'sequelize';
 
 let sequelize;
-if (process.env.DATABASE_URL) {
-  sequelize = new Sequelize(process.env.DATABASE_URL, {
+if (process.env.NODE_ENV === "production") {
+  sequelize = new Sequelize(process.env.DATABASE,
+    process.env.DATABASE_USER,
+    process.env.DATABASE_PASSWORD, {
+    host: `/cloudsql/${process.CLOUD_SQL_CONNECTION_NAME}`,
     dialect: 'postgres',
   });
 } else {
@@ -11,7 +14,7 @@ if (process.env.DATABASE_URL) {
     process.env.DATABASE_USER,
     process.env.DATABASE_PASSWORD,
     {
-      dialect: 'postgres',
+      dialect: 'postgres'
     },
   );
 }

@@ -16,7 +16,9 @@ import resolvers from './resolvers';
 import models, { sequelize } from './models';
 import loaders from './loaders';
 
-gcCloudDebugAgent.start();
+if(process.env.NODE_ENV === "production") {
+  gcCloudDebugAgent.start();
+}
 
 const app = express();
 
