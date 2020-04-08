@@ -13,5 +13,7 @@ export default gql`
       originUrl: String
       originText: String
       author: User!
+      instructions: [Instruction!]
+      ingredients: [Ingredient!]
   }
 `

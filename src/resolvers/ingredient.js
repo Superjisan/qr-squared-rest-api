@@ -28,10 +28,14 @@ export default {
     },
     instructions: async (ingredient, args, { models }) => {
       return await models.Instruction.findAll({
-        include: [models.Ingredient],
-        where: {
-          id: ingredient.id,
-        },
+        include: [
+          {
+            model: models.Ingredient,
+            where: {
+              id: ingredient.id,
+            },
+          },
+        ],
       });
     },
   },

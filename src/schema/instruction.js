@@ -9,7 +9,6 @@ export default gql`
   type Instruction {
       id: ID!
       text: String!
-      textIngredients: [String]
       textTimes: [String]
       category: String
       recipe: Recipe!

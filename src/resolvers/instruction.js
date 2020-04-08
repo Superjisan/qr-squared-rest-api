@@ -19,13 +19,17 @@ export default {
         },
       });
     },
-    
+
     ingredients: async (instruction, args, { models }) => {
       return await models.Ingredient.findAll({
-        include: [models.Instruction],
-        where: {
-          id: instruction.id,
-        },
+        include: [
+          {
+            model: models.Instruction,
+            where: {
+              id: instruction.id,
+            },
+          },
+        ],
       });
     },
   },

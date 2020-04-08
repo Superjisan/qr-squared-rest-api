@@ -19,5 +19,19 @@ export default {
         },
       });
     },
+    ingredients: async (recipe, args, {models}) => {
+      return await models.Ingredient.findAll({
+        where: {
+          recipeId: recipe.id
+        }
+      })
+    },
+    instructions: async (recipe, args, {models}) => {
+      return await models.Instruction.findAll({
+        where: {
+          recipeId: recipe.id
+        }
+      })
+    }
   },
 };
