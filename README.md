@@ -18,7 +18,7 @@ This repo is the backend node express server that runs Apollo Server to allow gr
 
     * Run `./cloud_sql_proxy -instances=<INSTANCE_CONNECTION_NAME>=tcp:5432`
 
-* `npm start`
+* `npm run start-dev`
 * visit `http://localhost:8000` for GraphQL playground
 
 #### .env file
@@ -37,5 +37,10 @@ SECRET=boomshakalaka
 ```
 
 The `SECRET` is just a random string for your authentication. Keep all these information secure by adding the *.env* file to your *.gitignore* file. No third-party should have access to this information.
+
+## Deploying to Production
+
+- To deploy to Google Cloud, ensure that Google Cloud App Engine is setup properly
+- And then you can run `npm run deploy`
 
 
