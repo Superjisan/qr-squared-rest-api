@@ -9,11 +9,15 @@ import {
   ApolloServer,
   AuthenticationError,
 } from 'apollo-server-express';
+import gcCloudDebugAgent from "@google-cloud/debug-agent";
+
 
 import schema from './schema';
 import resolvers from './resolvers';
 import models, { sequelize } from './models';
 import loaders from './loaders';
+
+gcCloudDebugAgent.start();
 
 const app = express();
 

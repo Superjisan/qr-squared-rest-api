@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "engines": {
-    "node": "12.16.1"
+    "node": "12.x.x"
   },
   "scripts": {
     "start": "nodemon --exec babel-node src/index.js",
@@ -28,6 +28,7 @@
     "morgan": "^1.9.1"
   },
   "dependencies": {
+    "@google-cloud/debug-agent": "^4.2.2",
     "apollo-server": "^2.2.3",
     "apollo-server-express": "^2.2.3",
     "bcrypt": "^3.0.2",
