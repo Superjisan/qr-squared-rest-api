@@ -11,6 +11,21 @@ export default {
     },
   },
 
+  Mutation: {
+    addRecipe: async (parent, {
+      name
+    }, {models}) => {
+      const recipe = await models.Recipe.create({
+        name
+      });
+      if(!recipe) {
+        throw new UserInputError('Name is needed to create a recipe');
+      }
+
+      return recipe;
+    }
+  },
+
   Recipe: {
     author: async (recipe, args, { models }) => {
       return await models.User.findOne({

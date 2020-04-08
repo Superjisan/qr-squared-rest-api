@@ -6,6 +6,12 @@ export default gql`
     recipe(id: ID!): Recipe!
   }
 
+  extend type Mutation {
+    addRecipe(
+      name: String!
+    ): Recipe!
+  }
+
   type Recipe {
       id: ID!
       name: String!
