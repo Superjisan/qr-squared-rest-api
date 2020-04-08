@@ -16,7 +16,7 @@ import resolvers from './resolvers';
 import models, { sequelize } from './models';
 import loaders from './loaders';
 
-if (process.env.GCLOUD_ENV) {
+if (!process.env.NODE_ENV_DEV) {
   gcCloudDebugAgent.start();
 }
 
@@ -24,9 +24,7 @@ const app = express();
 
 app.use(cors());
 
-if (!process.env.GCLOUD_ENV) {
-  app.use(morgan('dev'));
-}
+app.use(morgan('dev'));
 
 const getMe = async (req) => {
   const token = req.headers['x-token'];

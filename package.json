@@ -9,8 +9,8 @@
   "scripts": {
     "deploy": "npm run build --GCLOUD-ENV && gcloud app deploy",
     "build": "babel src -d dist",
-    "start": "node dist/index.js --DEV_ENV",
-    "start-dev": "nodemon --exec babel-node src/index.js",
+    "start": "node dist/index.js",
+    "start-dev": "nodemon --exec babel-node src/index.js --NODE_ENV_DEV",
     "test:run-server": "TEST_DATABASE=mytestdatabase npm start",
     "test:execute-test": "mocha --require @babel/register 'src/**/*.spec.js'",
     "test": "echo \"No test specified\" && exit 0",
