@@ -9,23 +9,26 @@ import {
   ApolloServer,
   AuthenticationError,
 } from 'apollo-server-express';
-import gcCloudDebugAgent from "@google-cloud/debug-agent";
-
+import gcCloudDebugAgent from '@google-cloud/debug-agent';
 
 import schema from './schema';
 import resolvers from './resolvers';
 import models, { sequelize } from './models';
 import loaders from './loaders';
 
-// gcCloudDebugAgent.start();
+if (process.env.GCLOUD_ENV) {
+  gcCloudDebugAgent.start();
+}
 
 const app = express();
 
 app.use(cors());
 
-app.use(morgan('dev'));
+if (!process.env.GCLOUD_ENV) {
+  app.use(morgan('dev'));
+}
 
-const getMe = async req => {
+const getMe = async (req) => {
   const token = req.headers['x-token'];
 
   if (token) {
@@ -33,7 +36,7 @@ const getMe = async req => {
       return await jwt.verify(token, process.env.SECRET);
     } catch (e) {
       throw new AuthenticationError(
-        'Your session expired. Sign in again.',
+        'Your session expired. Sign in again.'
       );
     }
   }
@@ -44,7 +47,7 @@ const server = new ApolloServer({
   playground: true,
   typeDefs: schema,
   resolvers,
-  formatError: error => {
+  formatError: (error) => {
     // remove the internal sequelize error message
     // leave only the important validation error
     const message = error.message
@@ -61,8 +64,8 @@ const server = new ApolloServer({
       return {
         models,
         loaders: {
-          user: new DataLoader(keys =>
-            loaders.user.batchUsers(keys, models),
+          user: new DataLoader((keys) =>
+            loaders.user.batchUsers(keys, models)
           ),
         },
       };
@@ -76,8 +79,8 @@ const server = new ApolloServer({
         me,
         secret: process.env.SECRET,
         loaders: {
-          user: new DataLoader(keys =>
-            loaders.user.batchUsers(keys, models),
+          user: new DataLoader((keys) =>
+            loaders.user.batchUsers(keys, models)
           ),
         },
       };
@@ -97,4 +100,3 @@ const port = process.env.PORT || 8000;
 httpServer.listen({ port }, () => {
   console.log(`Apollo Server on http://localhost:${port}/graphql`);
 });
-
