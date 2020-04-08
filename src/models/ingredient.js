@@ -9,6 +9,9 @@ const ingredient = (sequelize, DataTypes) => {
 
   Ingredient.associate = models => {
     Ingredient.belongsTo(models.Item);
+    Ingredient.belongsTo(models.UOM, {
+      constraints: false
+    });
 
     Ingredient.hasMany(models.Item, {
         as: "substituteItem",

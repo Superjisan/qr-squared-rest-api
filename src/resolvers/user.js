@@ -17,7 +17,11 @@ export default {
       return await models.User.findAll();
     },
     user: async (parent, { id }, { models }) => {
-      return await models.User.findById(id);
+      return await models.User.findOne({
+        where: {
+          id
+        }
+      });
     },
     me: async (parent, args, { models, me }) => {
       if (!me) {

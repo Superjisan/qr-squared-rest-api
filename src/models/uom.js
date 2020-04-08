@@ -9,6 +9,12 @@ const uom = (sequelize, DataTypes) => {
     },
   });
 
+  UOM.associate = models => {
+    UOM.hasMany(models.Ingredient, {
+      constraints: false
+    })
+  }
+
   return UOM;
 };
 

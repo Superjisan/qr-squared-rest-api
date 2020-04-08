@@ -7,7 +7,7 @@ export default {
       return await models.Ingredient.findAll();
     },
     ingredient: async (parent, { id }, { models }) => {
-      return await models.Ingredient.findById(id);
+      return await models.Ingredient.findOne({ where: { id } });
     },
   },
 
@@ -23,6 +23,13 @@ export default {
       return await models.Item.findOne({
         where: {
           id: ingredient.itemId,
+        },
+      });
+    },
+    uom: async (ingredient, args, { models }) => {
+      return await models.UOM.findOne({
+        where: {
+          id: ingredient.uomId,
         },
       });
     },
