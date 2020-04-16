@@ -22,7 +22,7 @@ if(process.env.NODE_ENV === "production") {
 
 const app = express();
 
-var whitelist = ['http://localhost:3000']
+var whitelist = ['http://localhost:3000', "https://superjisan.com"]
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -33,7 +33,7 @@ var corsOptions = {
   }
 }
 
-app.use(cors(corsOptions));
+app.use(cors(process.env.NODE_ENV === "production" ? corsOptions: {}));
 
 app.use(morgan('dev'));
 
