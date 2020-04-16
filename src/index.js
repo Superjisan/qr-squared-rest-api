@@ -22,10 +22,13 @@ if(process.env.NODE_ENV === "production") {
 
 const app = express();
 
-var whitelist = ['http://localhost:3000', "https://superjisan.com"]
+const port = process.env.PORT || 8000;
+
+var whitelist = ['http://localhost:3000', "https://superjisan.com", `http://localhost:${port}`]
 var corsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    console.log({origin})
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
@@ -33,7 +36,7 @@ var corsOptions = {
   }
 }
 
-app.use(cors(process.env.NODE_ENV === "production" ? corsOptions: {}));
+app.use(cors( corsOptions));
 
 app.use(morgan('dev'));
 
@@ -104,7 +107,6 @@ server.installSubscriptionHandlers(httpServer);
 
 const isTest = !!process.env.TEST_DATABASE;
 const isProduction = !!process.env.DATABASE_URL;
-const port = process.env.PORT || 8000;
 
 httpServer.listen({ port }, () => {
   console.log(`Apollo Server on http://localhost:${port}/graphql`);
