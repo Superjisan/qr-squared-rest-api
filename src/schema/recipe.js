@@ -16,7 +16,8 @@ export default gql`
       name: String!,
       rating: Int,
       originUrl: String,
-      originText: String
+      originText: String,
+      cookingTime: String
     ): Recipe!
   }
 

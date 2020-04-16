@@ -5,6 +5,16 @@ export default gql`
     ingredients: [Ingredient!]
     ingredient(id: ID!): Ingredient
   }
+  
+  extend type Mutation {
+    addIngredient(
+      qty:Float!,
+      itemName: String,
+      itemId: Int,
+      recipeId: Int!,
+      uomId: Int
+    ): Ingredient!
+  }
 
   type Ingredient {
       id: ID!
