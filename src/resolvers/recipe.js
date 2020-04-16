@@ -34,13 +34,29 @@ export default {
       }
     ),
 
-    updateRecipe: async (parent, { recipe }, { models }) => {
+    updateRecipe: async (parent, { id, name, rating, originUrl, originText,  cookingTime }, { models }) => {
       const recipeToUpdate = await models.Recipe.findOne({
         where: {
-          id: recipe.id,
+          id
         },
       });
-      return await recipeToUpdate.update(recipe);
+      let recipeObject = {};
+      if(name) {
+        recipeObject.name = name
+      }
+      if(rating) {
+        recipeObject.rating = rating
+      }
+      if(originUrl) {
+        recipeObject.originUrl = originUrl
+      }
+      if(originText) {
+        recipeObject.originText = originText
+      }
+      if(cookingTime) {
+        recipeObject.cookingTime = cookingTime
+      }
+      return await recipeToUpdate.update(recipeObject);
     },
   },
 
