@@ -6,6 +6,11 @@ export default gql`
     uom(id: ID!): UOM!
   }
 
+  extend type Mutation {
+    addUOM(name: String!, alias: String): UOM!
+    deleteUOM(id: ID!): Boolean!
+  }
+
   type UOM {
     id: ID!
     name: String!
