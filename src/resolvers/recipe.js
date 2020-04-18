@@ -1,7 +1,10 @@
 import { pickBy } from 'lodash';
 import { combineResolvers } from 'graphql-resolvers';
 import { AuthenticationError, UserInputError } from 'apollo-server';
-import { isAuthenticated } from './authorization';
+import {
+  isAuthenticated,
+  isRecipeAuthorOrAdmin,
+} from './authorization';
 
 export default {
   Query: {
@@ -34,30 +37,37 @@ export default {
       }
     ),
 
-    updateRecipe: async (parent, { id, name, rating, originUrl, originText,  cookingTime }, { models }) => {
-      const recipeToUpdate = await models.Recipe.findOne({
-        where: {
-          id
-        },
-      });
-      let recipeObject = {};
-      if(name) {
-        recipeObject.name = name
+    updateRecipe: combineResolvers(
+      isRecipeAuthorOrAdmin,
+      async (
+        parent,
+        { id, name, rating, originUrl, originText, cookingTime },
+        { models }
+      ) => {
+        const recipeToUpdate = await models.Recipe.findOne({
+          where: {
+            id,
+          },
+        });
+        let recipeObject = {};
+        if (name) {
+          recipeObject.name = name;
+        }
+        if (rating) {
+          recipeObject.rating = rating;
+        }
+        if (originUrl) {
+          recipeObject.originUrl = originUrl;
+        }
+        if (originText) {
+          recipeObject.originText = originText;
+        }
+        if (cookingTime) {
+          recipeObject.cookingTime = cookingTime;
+        }
+        return await recipeToUpdate.update(recipeObject);
       }
-      if(rating) {
-        recipeObject.rating = rating
-      }
-      if(originUrl) {
-        recipeObject.originUrl = originUrl
-      }
-      if(originText) {
-        recipeObject.originText = originText
-      }
-      if(cookingTime) {
-        recipeObject.cookingTime = cookingTime
-      }
-      return await recipeToUpdate.update(recipeObject);
-    },
+    ),
   },
 
   Recipe: {

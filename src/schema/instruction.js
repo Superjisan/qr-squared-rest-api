@@ -9,8 +9,21 @@ export default gql`
   type Instruction {
       id: ID!
       text: String!
-      textTimes: [String]
+      textTimes: [InstructionTextTime!]
+      textIngredients: [InstructionTextIngredient]
       category: String
       recipe: Recipe!
       ingredients: [Ingredient!]
-  }`;
+  }
+  
+  type InstructionTextTime {
+    wordIndex: Int!
+    timeValue: String!
+  }
+
+  type InstructionTextIngredient {
+    wordIndex: Int!
+    ingredientId: Int!
+  }
+  
+  `;

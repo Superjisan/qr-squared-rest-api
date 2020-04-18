@@ -35,7 +35,7 @@ import models, { sequelize } from '../models';
     
 //   });
 
-// sequelize.sync().then(createIngredient)
+
 
 const createIngredient = async () => {
   const ingredient1 = models.Ingredient.create({
@@ -44,6 +44,20 @@ const createIngredient = async () => {
     uomId: 1,
     qty: 4
   }, {include: [models.Item]})
+}
+
+const setIngredientToInstruction = async() => {
+  try {
+    const instruction = await models.Instruction.findOne({where: {id: 1}}).then(instruction => {
+      return models.Ingredient.findOne({where: {id: 1}}).then(ingredient => {
+        return instruction.setIngredients([ingredient])
+      })
+    })
+    return instruction
+
+  }catch (e) {
+    console.error(e)
+  }
 }
 
 const createUsers = async () => {
@@ -63,3 +77,5 @@ const createUsers = async () => {
 
   return {user1, user2}
 };
+
+// sequelize.sync().then(setIngredientToInstruction)

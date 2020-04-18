@@ -36,6 +36,8 @@ export default {
         return ingredient
       }
     )
+    // TODO: update ingredient
+    // TODO: delete ingredient
   },
 
   Ingredient: {
