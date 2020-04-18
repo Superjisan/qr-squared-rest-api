@@ -27,7 +27,6 @@ const port = process.env.PORT || 8000;
 var whitelist = ['http://localhost:3000', "https://www.superjisan.com", `http://localhost:${port}`, "https://quarantine-recipe-repository.appspot.com"]
 var corsOptions = {
   origin: function (origin, callback) {
-    console.log({origin})
     if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true)
     } else {

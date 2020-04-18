@@ -92,13 +92,6 @@ export default {
   },
 
   User: {
-    messages: async (user, args, { models }) => {
-      return await models.Message.findAll({
-        where: {
-          userId: user.id,
-        },
-      });
-    },
     recipes: async (user, args, {models}) => {
       return await models.Recipe.findAll({
         where: {
