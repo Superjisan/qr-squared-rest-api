@@ -23,6 +23,11 @@ export default gql`
       itemName: String
       uomId: ID
     ): Ingredient!
+
+    deleteIngredient(
+      id: ID!
+      recipeId: ID!
+    ): Boolean!
   }
 
   type Ingredient {

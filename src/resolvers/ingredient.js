@@ -37,7 +37,7 @@ export default {
           ingredientObject.itemId = itemId;
         }
 
-        if(uomId) {
+        if (uomId) {
           ingredientObject.uomId = uomId;
         }
 
@@ -53,7 +53,11 @@ export default {
     ),
     updateIngredient: combineResolvers(
       isRecipeAuthorOrAdmin,
-      async (parent, {id, recipeId, qty, itemName, itemId, uomId }, {models}) => {
+      async (
+        parent,
+        { id, recipeId, qty, itemName, itemId, uomId },
+        { models }
+      ) => {
         let ingredientObject = {
           recipeId,
           uomId,
@@ -68,19 +72,28 @@ export default {
           ingredientObject.itemId = itemId;
         }
 
-        if(uomId) {
+        if (uomId) {
           ingredientObject.uomId = uomId;
         }
         const ingredientToUpdate = await models.Ingredient.findOne({
+          where: { id },
+        });
+        return await ingredientToUpdate.update(ingredientObject, {
+          include: [models.Item, models.UOM],
+        });
+      }
+    ),
+    deleteIngredient: combineResolvers(
+      isRecipeAuthorOrAdmin,
+      async (parent, {id, recipeId}, { models }) => {
+        if(!recipeId){
+          new UserInputError("recipeId must be specified")
+        }
+        return await models.Ingredient.destroy({
           where: {id}
-        })
-        ingredientToUpdate.update(ingredientObject, {
-          include: [models.Item, models.UOM]
         })
       }
     ),
-    // TODO: update ingredient
-    // TODO: delete ingredient
   },
 
   Ingredient: {
