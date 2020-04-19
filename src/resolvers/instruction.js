@@ -1,3 +1,4 @@
+import { isEqual, isEmpty } from 'lodash';
 import { combineResolvers } from 'graphql-resolvers';
 import { Op } from 'sequelize';
 import {
@@ -117,19 +118,27 @@ export default {
           if (!ingredientIds) {
             return instructionUpdatedInstance;
           } else {
-            return models.Ingredient.findAll({
-              where: {
-                id: {
-                  [Op.or]: ingredientIds,
-                },
-              },
-            }).then((ingredients) => {
+            if (isEmpty(ingredientIds)) {
               return instructionUpdatedInstance
-                .setIngredients(ingredients)
-                .then((instruction) => {
+                .setIngredients([])
+                .then(() => {
                   return instructionUpdatedInstance;
                 });
-            });
+            } else {
+              return models.Ingredient.findAll({
+                where: {
+                  id: {
+                    [Op.or]: ingredientIds,
+                  },
+                },
+              }).then((ingredients) => {
+                return instructionUpdatedInstance
+                  .setIngredients(ingredients)
+                  .then(() => {
+                    return instructionUpdatedInstance;
+                  });
+              });
+            }
           }
         } catch (err) {
           throw new ApolloError(err);
