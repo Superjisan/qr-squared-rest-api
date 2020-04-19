@@ -63,16 +63,17 @@ export default {
       if (!ingredientIds) {
         return instruction;
       } else {
-        return instruction.then((instructionInstance) => {
-          return models.Ingredient.findAll({
-            where: {
-              id: {
-                [Op.or]: ingredientIds,
-              },
+        return models.Ingredient.findAll({
+          where: {
+            id: {
+              [Op.or]: ingredientIds,
             },
-          }).then((ingredients) => {
-            return instructionInstance.setIngredients(ingredients);
-          });
+          },
+        }).then((ingredients) => {
+          return instruction.setIngredients(ingredients)
+            .then(() => {
+              return instruction
+            })
         });
       }
     },
@@ -96,7 +97,7 @@ export default {
             {
               where: { id },
             },
-            {include: [{model: models.Ingredient}]}
+            { include: [{ model: models.Ingredient }] }
           );
           const instructionObj = {
             text,
