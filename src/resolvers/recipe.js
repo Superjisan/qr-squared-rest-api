@@ -68,6 +68,9 @@ export default {
         return await recipeToUpdate.update(recipeObject);
       }
     ),
+    deleteRecipe: combineResolvers(isRecipeAuthorOrAdmin, async(parent, {id}, {models}) => {
+      return await models.Recipe.destroy({where: {id}})
+    })
   },
 
   Recipe: {

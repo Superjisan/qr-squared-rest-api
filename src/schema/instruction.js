@@ -6,10 +6,36 @@ export default gql`
     instruction(id: ID!): Instruction!
   }
 
+  extend type Mutation {
+    addInstruction(
+      text: String!
+      textIngredients: [InputTextIngredient]
+      textTimes: [InputTextTime]
+      category: String
+      recipeId: ID!
+      ingredientIds: [ID]
+    ): Instruction!
+
+    updateInstruction(
+      id: ID!
+      recipeId: ID!
+      text: String!
+      textIngredients: [InputTextIngredient]
+      textTimes: [InputTextTime]
+      category: String
+      ingredientIds: [ID]
+    ): Instruction!
+
+    deleteInstruction(
+      id: ID!
+      recipeId: ID!
+    ): Boolean!
+  }
+
   type Instruction {
       id: ID!
       text: String!
-      textTimes: [InstructionTextTime!]
+      textTimes: [InstructionTextTime]
       textIngredients: [InstructionTextIngredient]
       category: String
       recipe: Recipe!
@@ -22,6 +48,16 @@ export default gql`
   }
 
   type InstructionTextIngredient {
+    wordIndex: Int!
+    ingredientId: Int!
+  }
+
+  input InputTextTime {
+    wordIndex: Int!
+    timeValue: String!
+  }
+
+  input InputTextIngredient {
     wordIndex: Int!
     ingredientId: Int!
   }

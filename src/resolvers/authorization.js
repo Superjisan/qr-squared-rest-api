@@ -14,14 +14,15 @@ export const isAdmin = combineResolvers(
 
 export const isRecipeAuthorOrAdmin = combineResolvers(
   isAuthenticated,
-  async (parent, { id, recipeId }, { me: { role } }) => {
-    const recipe = await models.Recipe.findOne(
+  (parent, { id, recipeId }, { me, models }) => {
+    return models.Recipe.findOne(
       { where: { id: recipeId || id } },
       { raw: true }
-    );
-    if (me.id !== recipe.author.id || role !== 'ADMIN') {
-      throw new ForbiddenError('Not authorized to edit recipe');
-    }
-    return skip;
+    ).then((recipe) => {
+      if (me.id !== recipe.authorId || me.role !== 'ADMIN') {
+        throw new ForbiddenError('Not authorized to edit recipe');
+      }
+      return skip;
+    });
   }
 );
