@@ -53,13 +53,13 @@ export default gql`
   }
 
   input InputTextTime {
-    wordIndex: Int!
+    wordIndex: Int
     timeValue: String!
   }
 
   input InputTextIngredient {
-    wordIndex: Int!
-    ingredientId: Int!
+    wordIndex: Int
+    ingredientId: Int
   }
   
   `;

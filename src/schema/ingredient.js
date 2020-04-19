@@ -14,6 +14,15 @@ export default gql`
       recipeId: Int!,
       uomId: Int
     ): Ingredient!
+
+    updateIngredient(
+      id: ID!
+      recipeId: ID!
+      qty: Float!
+      itemId: ID
+      itemName: String
+      uomId: ID
+    ): Ingredient!
   }
 
   type Ingredient {

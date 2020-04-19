@@ -1,6 +1,9 @@
 import { combineResolvers } from 'graphql-resolvers';
 import { AuthenticationError, UserInputError } from 'apollo-server';
-import { isAuthenticated } from './authorization';
+import {
+  isAuthenticated,
+  isRecipeAuthorOrAdmin,
+} from './authorization';
 
 export default {
   Query: {
@@ -15,27 +18,67 @@ export default {
   Mutation: {
     addIngredient: combineResolvers(
       isAuthenticated,
-      async(parent, {qty, itemName, itemId, uomId, recipeId}, {models, me}) => {
+      async (
+        parent,
+        { qty, itemName, itemId, uomId, recipeId },
+        { models, me }
+      ) => {
         let ingredientObject = {
           recipeId,
           uomId,
-          qty
+          qty,
         };
-        if(itemName) {
+        if (itemName) {
           ingredientObject.item = {
-            name: itemName
-          }
+            name: itemName,
+          };
         }
-        if(itemId) {
-          ingredientObject.itemId = itemId
+        if (itemId) {
+          ingredientObject.itemId = itemId;
         }
-        const ingredient = await models.Ingredient.create(ingredientObject, {include: [models.Item, models.UOM]})
-        if(!ingredient) {
-          throw new UserInputError('Unable to create ingredient')
+
+        if(uomId) {
+          ingredientObject.uomId = uomId;
         }
-        return ingredient
+
+        const ingredient = await models.Ingredient.create(
+          ingredientObject,
+          { include: [models.Item, models.UOM] }
+        );
+        if (!ingredient) {
+          throw new UserInputError('Unable to create ingredient');
+        }
+        return ingredient;
       }
-    )
+    ),
+    updateIngredient: combineResolvers(
+      isRecipeAuthorOrAdmin,
+      async (parent, {id, recipeId, qty, itemName, itemId, uomId }, {models}) => {
+        let ingredientObject = {
+          recipeId,
+          uomId,
+          qty,
+        };
+        if (itemName) {
+          ingredientObject.item = {
+            name: itemName,
+          };
+        }
+        if (itemId) {
+          ingredientObject.itemId = itemId;
+        }
+
+        if(uomId) {
+          ingredientObject.uomId = uomId;
+        }
+        const ingredientToUpdate = await models.Ingredient.findOne({
+          where: {id}
+        })
+        ingredientToUpdate.update(ingredientObject, {
+          include: [models.Item, models.UOM]
+        })
+      }
+    ),
     // TODO: update ingredient
     // TODO: delete ingredient
   },

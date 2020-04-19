@@ -95,23 +95,18 @@ export default {
           const instructionToUpdate = await models.Instruction.findOne(
             {
               where: { id },
-            }
+            },
+            {include: [{model: models.Ingredient}]}
           );
           const instructionObj = {
             text,
             recipeId,
           };
           if (textIngredients) {
-            const textIngredientJSONArr = textIngredients.map(
-              (elem) => JSON.stringify(elem)
-            );
-            instructionObj.textIngredients = textIngredientJSONArr;
+            instructionObj.textIngredients = textIngredients;
           }
           if (textTimes) {
-            const textTimesJSONArr = textIngredients.map((elem) =>
-              JSON.stringify(elem)
-            );
-            instructionObj.textTimes = textTimesJSONArr;
+            instructionObj.textTimes = textTimes;
           }
           if (category || category === null) {
             instructionObj.category = category;
@@ -122,18 +117,18 @@ export default {
           if (!ingredientIds) {
             return instructionUpdatedInstance;
           } else {
-            return instruction.then((instructionInstance) => {
-              return models.Ingredient.findAll({
-                where: {
-                  id: {
-                    [Op.or]: ingredientIds,
-                  },
+            return models.Ingredient.findAll({
+              where: {
+                id: {
+                  [Op.or]: ingredientIds,
                 },
-              }).then((ingredients) => {
-                return instructionInstance.setIngredients(
-                  ingredients
-                );
-              });
+              },
+            }).then((ingredients) => {
+              return instructionUpdatedInstance
+                .setIngredients(ingredients)
+                .then((instruction) => {
+                  return instructionUpdatedInstance;
+                });
             });
           }
         } catch (err) {
