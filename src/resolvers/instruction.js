@@ -17,7 +17,7 @@ export default {
       return await models.Instruction.findAll();
     },
     instruction: async (parent, { id }, { models }) => {
-      return await models.Instruction.findOne({ id });
+      return await models.Instruction.findOne({ where: { id } });
     },
   },
 
@@ -70,10 +70,9 @@ export default {
             },
           },
         }).then((ingredients) => {
-          return instruction.setIngredients(ingredients)
-            .then(() => {
-              return instruction
-            })
+          return instruction.setIngredients(ingredients).then(() => {
+            return instruction;
+          });
         });
       }
     },
