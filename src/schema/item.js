@@ -6,6 +6,18 @@ export default gql`
     item(id: ID!): Item!
   }
 
+  extend type Mutation {
+    updateItem(
+      id: ID!
+      name: String!
+      type: String
+    ): Item!
+    
+    deleteItem(
+      id: ID!
+    ): Boolean!
+  }
+
   type Item {
       id: ID!
       name: String!
