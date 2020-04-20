@@ -29,7 +29,7 @@ var whitelist = [
   'https://www.superjisan.com',
   `http://localhost:${port}`,
   'https://quarantine-recipe-repository.appspot.com',
-  'https://qr-squared.web.app/'
+  'https://qr-squared.web.app'
 ];
 var corsOptions = {
   origin: function (origin, callback) {
