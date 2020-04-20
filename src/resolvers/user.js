@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { combineResolvers } from 'graphql-resolvers';
 import { AuthenticationError, UserInputError } from 'apollo-server';
@@ -71,13 +72,22 @@ export default {
 
     updateUser: combineResolvers(
       isAuthenticated,
-      async (parent, { username }, { models, me }) => {
+      async (parent, { username, password, email, role }, { models, me }) => {
+        
         const user = await models.User.findOne({
           where: {
             id: me.id
           }
         });
-        return await user.update({ username });
+        let passwordToSet;
+        if(password) {
+          if(password.length < 7 || password.length >  42) {
+            throw new UserInputError('password not the correct length')
+          } else {
+            passwordToSet = await bcrypt.hash(password, 10)
+          }
+        }
+        return await user.update({ username, password: passwordToSet , email, role });
       },
     ),
 
