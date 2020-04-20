@@ -7,7 +7,7 @@ import DataLoader from 'dataloader';
 import express from 'express';
 import {
   ApolloServer,
-  AuthenticationError,
+  AuthenticationError
 } from 'apollo-server-express';
 import * as gcCloudDebugAgent from '@google-cloud/debug-agent';
 
@@ -16,7 +16,7 @@ import resolvers from './resolvers';
 import models, { sequelize } from './models';
 import loaders from './loaders';
 
-if(process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === 'production') {
   gcCloudDebugAgent.start();
 }
 
@@ -24,18 +24,24 @@ const app = express();
 
 const port = process.env.PORT || 8000;
 
-var whitelist = ['http://localhost:3000', "https://www.superjisan.com", `http://localhost:${port}`, "https://quarantine-recipe-repository.appspot.com"]
+var whitelist = [
+  'http://localhost:3000',
+  'https://www.superjisan.com',
+  `http://localhost:${port}`,
+  'https://quarantine-recipe-repository.appspot.com',
+  'https://qr-squared.web.app/'
+];
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true)
+      callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'))
+      callback(new Error('Not allowed by CORS'));
     }
   }
-}
+};
 
-app.use(cors( corsOptions));
+app.use(cors(corsOptions));
 
 app.use(morgan('dev'));
 
@@ -67,7 +73,7 @@ const server = new ApolloServer({
 
     return {
       ...error,
-      message,
+      message
     };
   },
   context: async ({ req, connection }) => {
@@ -77,8 +83,8 @@ const server = new ApolloServer({
         loaders: {
           user: new DataLoader((keys) =>
             loaders.user.batchUsers(keys, models)
-          ),
-        },
+          )
+        }
       };
     }
 
@@ -92,11 +98,11 @@ const server = new ApolloServer({
         loaders: {
           user: new DataLoader((keys) =>
             loaders.user.batchUsers(keys, models)
-          ),
-        },
+          )
+        }
       };
     }
-  },
+  }
 });
 
 server.applyMiddleware({ app, path: '/graphql' });
