@@ -39,6 +39,7 @@ export default {
       { username, email, password },
       { models, secret },
     ) => {
+      let passwordToSet;
       if(password.length < 7 || password.length >  42) {
         throw new UserInputError('password not the correct length')
       } else {
@@ -47,7 +48,7 @@ export default {
       const user = await models.User.create({
         username,
         email,
-        password,
+        password: passwordToSet,
       });
       
 
