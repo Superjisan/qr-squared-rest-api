@@ -54,7 +54,7 @@ export default {
         );
         instructionObj.textTimes = textTimesJSONArr;
       }
-      if (category || category === null) {
+      if (category) {
         instructionObj.category = category;
       }
 
@@ -109,7 +109,7 @@ export default {
           if (textTimes) {
             instructionObj.textTimes = textTimes;
           }
-          if (category || category === null) {
+          if (category || category === '') {
             instructionObj.category = category;
           }
           const instructionUpdatedInstance = await instructionToUpdate.update(

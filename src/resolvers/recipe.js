@@ -3,7 +3,7 @@ import { combineResolvers } from 'graphql-resolvers';
 import { AuthenticationError, UserInputError } from 'apollo-server';
 import {
   isAuthenticated,
-  isRecipeAuthorOrAdmin,
+  isRecipeAuthorOrAdmin
 } from './authorization';
 
 export default {
@@ -12,8 +12,8 @@ export default {
       return await models.Recipe.findAll();
     },
     recipe: async (parent, { id }, { models }) => {
-      return await models.Recipe.findOne({where: {id}});
-    },
+      return await models.Recipe.findOne({ where: { id } });
+    }
   },
 
   Mutation: {
@@ -23,7 +23,7 @@ export default {
         const recipe = await models.Recipe.create(
           {
             name,
-            authorId: me.id,
+            authorId: me.id
           },
           { include: [{ model: models.User, as: 'author' }] }
         );
@@ -46,8 +46,8 @@ export default {
       ) => {
         const recipeToUpdate = await models.Recipe.findOne({
           where: {
-            id,
-          },
+            id
+          }
         });
         let recipeObject = {};
         if (name) {
@@ -68,32 +68,37 @@ export default {
         return await recipeToUpdate.update(recipeObject);
       }
     ),
-    deleteRecipe: combineResolvers(isRecipeAuthorOrAdmin, async(parent, {id}, {models}) => {
-      return await models.Recipe.destroy({where: {id}})
-    })
+    deleteRecipe: combineResolvers(
+      isRecipeAuthorOrAdmin,
+      async (parent, { id }, { models }) => {
+        return await models.Recipe.destroy({ where: { id } });
+      }
+    )
   },
 
   Recipe: {
     author: async (recipe, args, { models }) => {
       return await models.User.findOne({
         where: {
-          id: recipe.authorId,
-        },
+          id: recipe.authorId
+        }
       });
     },
     ingredients: async (recipe, args, { models }) => {
       return await models.Ingredient.findAll({
         where: {
-          recipeId: recipe.id,
+          recipeId: recipe.id
         },
+        order: [['id', 'ASC']]
       });
     },
     instructions: async (recipe, args, { models }) => {
       return await models.Instruction.findAll({
         where: {
-          recipeId: recipe.id,
+          recipeId: recipe.id
         },
+        order: [['id', 'ASC']]
       });
-    },
-  },
+    }
+  }
 };
