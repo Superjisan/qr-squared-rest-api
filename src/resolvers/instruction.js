@@ -61,7 +61,7 @@ export default {
       const instruction = await models.Instruction.create(
         instructionObj
       );
-      if (!ingredientIds) {
+      if (!ingredientIds || ingredientIds.length === 0) {
         return instruction;
       } else {
         return models.Ingredient.findAll({
