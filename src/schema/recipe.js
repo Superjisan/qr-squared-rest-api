@@ -5,6 +5,7 @@ export default gql`
     recipes: [Recipe!]
     recipe(id: ID!): Recipe!
     recipeSearchByName(name: String): [Recipe!]
+    myRecipes: [Recipe!]
   }
 
   extend type Mutation {

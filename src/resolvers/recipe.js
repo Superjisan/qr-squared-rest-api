@@ -23,7 +23,17 @@ export default {
           }
         }
       });
-    }
+    },
+    myRecipes: combineResolvers(
+      isAuthenticated,
+      async (parent, args, {models, me}) => {
+        return await models.Recipe.findAll({
+          where: {
+            authorId: me.id
+          }
+        })
+      }
+    )
   },
 
   Mutation: {
