@@ -15,14 +15,14 @@ export default {
     recipe: async (parent, { id }, { models }) => {
       return await models.Recipe.findOne({ where: { id } });
     },
-    recipeSearchByName: async (parent, {name}, {models}) => {
+    recipeSearchByName: async (parent, { name }, { models }) => {
       return await models.Recipe.findAll({
         where: {
-          name : {
-            [Op.iLike] : `%${name}%`
+          name: {
+            [Op.iLike]: `%${name}%`
           }
         }
-      })
+      });
     }
   },
 
@@ -51,7 +51,7 @@ export default {
       isRecipeAuthorOrAdmin,
       async (
         parent,
-        { id, name, rating, originUrl, originText, cookingTime },
+        { id, name, rating, originUrl, originText, cookingTime, imageUrl },
         { models }
       ) => {
         const recipeToUpdate = await models.Recipe.findOne({
@@ -66,15 +66,20 @@ export default {
         if (rating) {
           recipeObject.rating = rating;
         }
-        if (originUrl) {
+        if (originUrl || originUrl === "") {
           recipeObject.originUrl = originUrl;
         }
-        if (originText) {
+        if (originText || originText === "") {
           recipeObject.originText = originText;
         }
-        if (cookingTime) {
+        if (cookingTime || cookingTime === "") {
           recipeObject.cookingTime = cookingTime;
         }
+
+        if (imageUrl || imageUrl === "") {
+          recipeObject.imageUrl = imageUrl
+        }
+
         return await recipeToUpdate.update(recipeObject);
       }
     ),

@@ -17,6 +17,7 @@ export default gql`
       originUrl: String
       originText: String
       cookingTime: String
+      imageUrl: String
     ): Recipe!
 
     deleteRecipe(id: ID!): Boolean!
