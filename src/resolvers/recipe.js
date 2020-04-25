@@ -1,6 +1,7 @@
-import { pickBy } from 'lodash';
 import { combineResolvers } from 'graphql-resolvers';
-import { AuthenticationError, UserInputError } from 'apollo-server';
+import { UserInputError } from 'apollo-server';
+import { Op } from 'sequelize';
+
 import {
   isAuthenticated,
   isRecipeAuthorOrAdmin
@@ -13,6 +14,15 @@ export default {
     },
     recipe: async (parent, { id }, { models }) => {
       return await models.Recipe.findOne({ where: { id } });
+    },
+    recipeSearchByName: async (parent, {name}, {models}) => {
+      return await models.Recipe.findAll({
+        where: {
+          name : {
+            [Op.iLike] : `%${name}%`
+          }
+        }
+      })
     }
   },
 

@@ -4,6 +4,7 @@ export default gql`
   extend type Query {
     recipes: [Recipe!]
     recipe(id: ID!): Recipe!
+    recipeSearchByName(name: String): [Recipe!]
   }
 
   extend type Mutation {
