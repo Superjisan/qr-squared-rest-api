@@ -20,6 +20,7 @@ const recipe = (sequelize, DataTypes) => {
     },
     originUrl: DataTypes.STRING,
     originText: DataTypes.TEXT,
+    imageUrl: DataTypes.STRING
   });
 
   Recipe.associate = models => {

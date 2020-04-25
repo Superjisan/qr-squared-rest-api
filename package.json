@@ -14,7 +14,8 @@
     "test:run-server": "TEST_DATABASE=mytestdatabase npm start",
     "test:execute-test": "mocha --require @babel/register 'src/**/*.spec.js'",
     "test": "echo \"No test specified\" && exit 0",
-    "reseed": "nodemon --exec babel-node src/reseed/reseed-data.js"
+    "reseed": "nodemon --exec babel-node src/reseed/reseed-data.js",
+    "ddl": "nodemon --exec babel-node src/reseed/add-image-url-column.js"
   },
   "keywords": [],
   "author": "Jisan Zaman & Alissa Ortman",

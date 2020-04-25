@@ -29,6 +29,7 @@ export default gql`
     originText: String
     author: User
     cookingTime: String
+    imageUrl: String
     instructions: [Instruction!]
     ingredients: [Ingredient!]
   }
