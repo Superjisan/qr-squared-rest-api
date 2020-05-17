@@ -19,7 +19,8 @@ export const isRecipeAuthorOrAdmin = combineResolvers(
       { where: { id: recipeId || id } },
       { raw: true }
     ).then((recipe) => {
-      if (me.id !== recipe.authorId || me.role !== 'ADMIN') {
+      console.log({me, recipe})
+      if (me.id !== recipe.authorId && me.role !== 'ADMIN') {
         throw new ForbiddenError('Not authorized to edit recipe');
       }
       return skip;
