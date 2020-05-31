@@ -20,7 +20,7 @@ export default {
       isAuthenticated,
       async (
         parent,
-        { qty, itemName, itemId, uomId, recipeId },
+        { qty, itemName, itemId, uomId, recipeId, category },
         { models, me }
       ) => {
         let ingredientObject = {
@@ -41,6 +41,10 @@ export default {
           ingredientObject.uomId = uomId;
         }
 
+        if(category) {
+          ingredientObject.category = category;
+        }
+
         const ingredient = await models.Ingredient.create(
           ingredientObject,
           { include: [models.Item, models.UOM] }
@@ -55,7 +59,7 @@ export default {
       isRecipeAuthorOrAdmin,
       async (
         parent,
-        { id, recipeId, qty, itemName, itemId, uomId },
+        { id, recipeId, qty, itemName, itemId, uomId, category },
         { models }
       ) => {
         let ingredientObject = {
@@ -75,6 +79,11 @@ export default {
         if (uomId) {
           ingredientObject.uomId = uomId;
         }
+
+        if(category) {
+          ingredientObject.category = category;
+        }
+
         const ingredientToUpdate = await models.Ingredient.findOne({
           where: { id }
         });

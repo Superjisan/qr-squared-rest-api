@@ -12,7 +12,8 @@ export default gql`
       itemName: String,
       itemId: Int,
       recipeId: Int!,
-      uomId: Int
+      uomId: Int,
+      category: String
     ): Ingredient!
 
     updateIngredient(
@@ -21,7 +22,8 @@ export default gql`
       qty: Float!
       itemId: ID
       itemName: String
-      uomId: ID
+      uomId: ID,
+      category: String
     ): Ingredient!
 
     deleteIngredient(
