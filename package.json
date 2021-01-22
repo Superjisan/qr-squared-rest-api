@@ -34,7 +34,7 @@
     "@babel/cli": "^7.8.4",
     "@google-cloud/debug-agent": "^4.2.2",
     "apollo-server": "^2.14.2",
-    "apollo-server-express": "^2.2.3",
+    "apollo-server-express": "^2.14.2",
     "bcrypt": "^3.0.2",
     "cors": "^2.8.5",
     "dataloader": "^1.4.0",
